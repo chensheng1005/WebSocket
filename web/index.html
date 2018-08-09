@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket消息推送</title>
+</head>
+<body>
+    <div id="ds" style="width: 600px;height: 400px;border: 1px solid black;float: left">
+
+    </div>
+    <div id="ts" style="width: 100px;height: 400px;border: 1px solid black;margin-left: 630px">
+
+    </div>
+    <div>
+        <textarea id="txt" style="width: 600px;height: 100px;margin-top: 20px"></textarea>
+        <input type="button" id="btnSend" value="发送"/>
+    </div>
+    <div style="margin-top: 20px">
+        <input type="button" id="btnConnection" value="连接" />
+        <input type="button" id="btnClose" value="关闭"/>
+    </div>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    var socket;
+    if(typeof(WebSocket)=="undefined"){
+        alert("您的浏览器不支持WebSorcket");
+    }
+    var name;
+    $("#btnConnection").click(function () {
+        //实现化WebSocket对象，指定要连接的服务器地址与端口
+        name = prompt("请输入昵称...");
+        socket = new WebSocket("ws://192.168.7.65:8080/ws/"+name)
+
+        //打开事件
+        socket.onopen = function() {
+            $("#ts").append($("<p/>").html(name+":已连接"));
+        }
+        //获得消息事件
+        socket.onmessage = function(msg){
+            $("#ds").append($("<p/>").html(msg.data))
+        }
+        //发生错误事件
+        socket.onerror = function () {
+            if(name==""){
+                $("#ts").append($("<p/>").html("请输入昵称！"));
+            }else{
+                $("#ts").append($("<p/>").html(name+":连接失败"));
+            }
+        }
+    })
+    $("#btnSend").click(function () {
+        var txt = $("#txt").val();
+        socket.send(txt);
+        $("#txt").val("");
+    })
+    $("#btnClose").click(function () {
+        socket.close();
+        $("#ts").append($("<p/>").html(name+":关闭连接"));
+    })
+</script>
+</body>
+</html>

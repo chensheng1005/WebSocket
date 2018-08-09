@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="WSWebSocket:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/WSWebSocket_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="WSWebSocket/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="WSWebSocket" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
